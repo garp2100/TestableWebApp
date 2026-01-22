@@ -1,0 +1,39 @@
+{
+  "Version": 1,
+  "Hash": "0BkWe6u/xqyHwpsTzCDJjAXo7srFyh9iodFXNygmVn0=",
+  "Source": "TestableWebApp",
+  "BasePath": "_content/TestableWebApp",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "TestableWebApp/wwwroot",
+      "Source": "TestableWebApp",
+      "ContentRoot": "/Users/gustavorivera/Repo/Csharp_MVC/TestableWebApp/wwwroot/",
+      "BasePath": "_content/TestableWebApp",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/Users/gustavorivera/Repo/Csharp_MVC/TestableWebApp/wwwroot/css/site.css",
+      "SourceId": "TestableWebApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/gustavorivera/Repo/Csharp_MVC/TestableWebApp/wwwroot/",
+      "BasePath": "_content/TestableWebApp",
+      "RelativePath": "css/site.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/css/site.css"
+    }
+  ]
+}

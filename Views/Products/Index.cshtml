@@ -1,0 +1,102 @@
+@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "Products";
+    var categories = ViewData["Categories"] as string[] ?? Array.Empty<string>();
+    var searchTerm = ViewData["SearchTerm"] as string;
+    var selectedCategory = ViewData["Category"] as string;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4" data-automation-id="products-header">
+    <h1 data-automation-id="products-title">Products</h1>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Create" class="btn btn-success" data-automation-id="create-product-btn">
+            + Add Product
+        </a>
+    }
+</div>
+
+<div class="row mb-4" data-automation-id="products-filters">
+    <div class="col-md-6">
+        <form asp-action="Index" method="get" class="d-flex gap-2" data-automation-id="search-form">
+            <input type="text" name="search" class="form-control" placeholder="Search products..." 
+                   value="@searchTerm" data-automation-id="search-input" />
+            <button type="submit" class="btn btn-primary" data-automation-id="search-btn">Search</button>
+            @if (!string.IsNullOrEmpty(searchTerm))
+            {
+                <a asp-action="Index" class="btn btn-outline-secondary" data-automation-id="clear-search-btn">Clear</a>
+            }
+        </form>
+    </div>
+    <div class="col-md-6">
+        <div class="d-flex gap-2 flex-wrap" data-automation-id="category-filters">
+            <a asp-action="Index" class="btn @(string.IsNullOrEmpty(selectedCategory) ? "btn-primary" : "btn-outline-primary") btn-sm"
+               data-automation-id="category-all">All</a>
+            @foreach (var category in categories)
+            {
+                <a asp-action="Index" asp-route-category="@category" 
+                   class="btn @(selectedCategory == category ? "btn-primary" : "btn-outline-primary") btn-sm"
+                   data-automation-id="category-@category.ToLower().Replace(" ", "-")">@category</a>
+            }
+        </div>
+    </div>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info" data-automation-id="no-products-message">
+        <h5>No products found</h5>
+        <p>Try adjusting your search or filter criteria.</p>
+    </div>
+}
+else
+{
+    <div class="row" data-automation-id="products-grid">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4 col-lg-3 mb-4" data-automation-id="product-item-@product.Id">
+                <div class="card h-100 @(!product.IsActive ? "border-warning" : "")">
+                    @if (!product.IsActive)
+                    {
+                        <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-2" data-automation-id="inactive-badge-@product.Id">
+                            Inactive
+                        </span>
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title" data-automation-id="product-name-@product.Id">@product.Name</h5>
+                        <span class="badge bg-secondary mb-2" data-automation-id="product-category-badge-@product.Id">@product.Category</span>
+                        <p class="card-text small" data-automation-id="product-description-@product.Id">
+                            @(product.Description?.Length > 80 ? product.Description.Substring(0, 80) + "..." : product.Description)
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 text-primary mb-0" data-automation-id="product-price-@product.Id">
+                                $@product.Price.ToString("F2")
+                            </span>
+                            <span class="badge @(product.StockQuantity > 0 ? "bg-success" : "bg-danger")" 
+                                  data-automation-id="product-stock-@product.Id">
+                                @(product.StockQuantity > 0 ? $"In Stock: {product.StockQuantity}" : "Out of Stock")
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="d-flex gap-2">
+                            <a asp-action="Details" asp-route-id="@product.Id" class="btn btn-outline-primary btn-sm flex-grow-1"
+                               data-automation-id="view-details-btn-@product.Id">Details</a>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-outline-secondary btn-sm"
+                                   data-automation-id="edit-btn-@product.Id">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-outline-danger btn-sm"
+                                   data-automation-id="delete-btn-@product.Id">Delete</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    
+    <div class="text-muted" data-automation-id="products-count">
+        Showing @Model.Count() products
+    </div>
+}

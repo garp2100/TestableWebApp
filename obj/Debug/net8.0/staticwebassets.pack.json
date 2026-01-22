@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/gustavorivera/Repo/Csharp_MVC/TestableWebApp/wwwroot/css/site.css",
+      "PackagePath": "staticwebassets/css/site.css"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.TestableWebApp.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.TestableWebApp.props",
+      "PackagePath": "build\\TestableWebApp.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.TestableWebApp.props",
+      "PackagePath": "buildMultiTargeting\\TestableWebApp.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.TestableWebApp.props",
+      "PackagePath": "buildTransitive\\TestableWebApp.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

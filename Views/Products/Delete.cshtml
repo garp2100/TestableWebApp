@@ -1,0 +1,56 @@
+@model Product
+@{
+    ViewData["Title"] = "Delete Product";
+}
+
+<div class="row justify-content-center" data-automation-id="delete-product-page">
+    <div class="col-md-6">
+        <nav aria-label="breadcrumb" data-automation-id="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-action="Index" data-automation-id="breadcrumb-products">Products</a></li>
+                <li class="breadcrumb-item active" data-automation-id="breadcrumb-delete">Delete</li>
+            </ol>
+        </nav>
+
+        <div class="card shadow border-danger" data-automation-id="delete-product-card">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0" data-automation-id="delete-title">⚠️ Confirm Delete</h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning" data-automation-id="delete-warning">
+                    <strong>Warning!</strong> Are you sure you want to delete this product? This action cannot be undone.
+                </div>
+
+                <dl class="row" data-automation-id="product-summary">
+                    <dt class="col-sm-4">Product Name</dt>
+                    <dd class="col-sm-8" data-automation-id="product-name">@Model.Name</dd>
+
+                    <dt class="col-sm-4">Category</dt>
+                    <dd class="col-sm-8" data-automation-id="product-category">@Model.Category</dd>
+
+                    <dt class="col-sm-4">Price</dt>
+                    <dd class="col-sm-8" data-automation-id="product-price">$@Model.Price.ToString("F2")</dd>
+
+                    <dt class="col-sm-4">Stock</dt>
+                    <dd class="col-sm-8" data-automation-id="product-stock">@Model.StockQuantity units</dd>
+
+                    <dt class="col-sm-4">Status</dt>
+                    <dd class="col-sm-8" data-automation-id="product-status">@(Model.IsActive ? "Active" : "Inactive")</dd>
+                </dl>
+            </div>
+            <div class="card-footer">
+                <form asp-action="Delete" method="post" data-automation-id="delete-form">
+                    <input type="hidden" asp-for="Id" data-automation-id="product-id-hidden" />
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-danger" data-automation-id="confirm-delete-btn">
+                            Yes, Delete Product
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary" data-automation-id="cancel-btn">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

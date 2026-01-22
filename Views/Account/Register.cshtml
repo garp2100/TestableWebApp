@@ -1,0 +1,76 @@
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="row justify-content-center" data-automation-id="register-page">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow" data-automation-id="register-card">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0" data-automation-id="register-title">Create Account</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="Register" method="post" data-automation-id="register-form">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" data-automation-id="register-validation-summary"></div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="FirstName" class="form-label" data-automation-id="firstname-label">First Name</label>
+                            <input asp-for="FirstName" class="form-control" placeholder="Enter first name" 
+                                   data-automation-id="firstname-input" autocomplete="given-name" />
+                            <span asp-validation-for="FirstName" class="text-danger" data-automation-id="firstname-validation"></span>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="LastName" class="form-label" data-automation-id="lastname-label">Last Name</label>
+                            <input asp-for="LastName" class="form-control" placeholder="Enter last name" 
+                                   data-automation-id="lastname-input" autocomplete="family-name" />
+                            <span asp-validation-for="LastName" class="text-danger" data-automation-id="lastname-validation"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label" data-automation-id="email-label">Email</label>
+                        <input asp-for="Email" class="form-control" type="email" placeholder="Enter your email" 
+                               data-automation-id="email-input" autocomplete="email" />
+                        <span asp-validation-for="Email" class="text-danger" data-automation-id="email-validation"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label" data-automation-id="password-label">Password</label>
+                        <input asp-for="Password" class="form-control" type="password" placeholder="Create a password" 
+                               data-automation-id="password-input" autocomplete="new-password" />
+                        <span asp-validation-for="Password" class="text-danger" data-automation-id="password-validation"></span>
+                        <small class="text-muted" data-automation-id="password-requirements">
+                            Password must be at least 6 characters with uppercase, lowercase, and a digit.
+                        </small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="ConfirmPassword" class="form-label" data-automation-id="confirm-password-label">Confirm Password</label>
+                        <input asp-for="ConfirmPassword" class="form-control" type="password" placeholder="Confirm your password" 
+                               data-automation-id="confirm-password-input" autocomplete="new-password" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger" data-automation-id="confirm-password-validation"></span>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success" data-automation-id="register-submit-btn">
+                            Create Account
+                        </button>
+                    </div>
+                </form>
+                
+                <hr />
+                
+                <div class="text-center" data-automation-id="login-link-section">
+                    <p class="mb-0">Already have an account?</p>
+                    <a asp-action="Login" data-automation-id="login-link">Login here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

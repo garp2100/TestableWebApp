@@ -1,0 +1,70 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="row justify-content-center" data-automation-id="login-page">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow" data-automation-id="login-card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0" data-automation-id="login-title">Login</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="Login" method="post" data-automation-id="login-form">
+                    <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+                    
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" data-automation-id="login-validation-summary"></div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label" data-automation-id="email-label">Email</label>
+                        <input asp-for="Email" class="form-control" type="email" placeholder="Enter your email" 
+                               data-automation-id="email-input" autocomplete="email" />
+                        <span asp-validation-for="Email" class="text-danger" data-automation-id="email-validation"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label" data-automation-id="password-label">Password</label>
+                        <input asp-for="Password" class="form-control" type="password" placeholder="Enter your password" 
+                               data-automation-id="password-input" autocomplete="current-password" />
+                        <span asp-validation-for="Password" class="text-danger" data-automation-id="password-validation"></span>
+                    </div>
+                    
+                    <div class="mb-3 form-check">
+                        <input asp-for="RememberMe" class="form-check-input" type="checkbox" 
+                               data-automation-id="remember-me-checkbox" />
+                        <label asp-for="RememberMe" class="form-check-label" data-automation-id="remember-me-label">
+                            Remember me
+                        </label>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary" data-automation-id="login-submit-btn">
+                            Login
+                        </button>
+                    </div>
+                </form>
+                
+                <hr />
+                
+                <div class="text-center" data-automation-id="register-link-section">
+                    <p class="mb-0">Don't have an account?</p>
+                    <a asp-action="Register" data-automation-id="register-link">Register here</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mt-3" data-automation-id="test-credentials-card">
+            <div class="card-body">
+                <h6 class="card-title">Test Credentials:</h6>
+                <small class="text-muted">
+                    <div data-automation-id="test-admin-creds">Admin: admin@test.com / Admin123!</div>
+                    <div data-automation-id="test-user-creds">User: user@test.com / User123!</div>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

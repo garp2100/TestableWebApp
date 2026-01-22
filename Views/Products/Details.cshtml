@@ -1,0 +1,121 @@
+@model Product
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="row" data-automation-id="product-details-page">
+    <div class="col-12">
+        <nav aria-label="breadcrumb" data-automation-id="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-action="Index" data-automation-id="breadcrumb-products">Products</a></li>
+                <li class="breadcrumb-item active" data-automation-id="breadcrumb-current">@Model.Name</li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card shadow" data-automation-id="product-details-card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h2 class="mb-0" data-automation-id="product-name">@Model.Name</h2>
+                @if (!Model.IsActive)
+                {
+                    <span class="badge bg-warning text-dark" data-automation-id="inactive-badge">Inactive</span>
+                }
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <span class="badge bg-secondary" data-automation-id="product-category">@Model.Category</span>
+                </div>
+
+                <p class="lead" data-automation-id="product-description">
+                    @(Model.Description ?? "No description available.")
+                </p>
+
+                <hr />
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4 data-automation-id="price-label">Price</h4>
+                        <p class="h2 text-primary" data-automation-id="product-price">$@Model.Price.ToString("F2")</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 data-automation-id="stock-label">Availability</h4>
+                        @if (Model.StockQuantity > 0)
+                        {
+                            <p class="h4 text-success" data-automation-id="product-stock">
+                                <span class="badge bg-success">In Stock</span>
+                                <small class="text-muted">(@Model.StockQuantity available)</small>
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="h4 text-danger" data-automation-id="product-stock">
+                                <span class="badge bg-danger">Out of Stock</span>
+                            </p>
+                        }
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row text-muted small">
+                    <div class="col-md-6">
+                        <p data-automation-id="created-date">
+                            <strong>Created:</strong> @Model.CreatedAt.ToString("MMMM dd, yyyy")
+                        </p>
+                    </div>
+                    @if (Model.UpdatedAt.HasValue)
+                    {
+                        <div class="col-md-6">
+                            <p data-automation-id="updated-date">
+                                <strong>Last Updated:</strong> @Model.UpdatedAt.Value.ToString("MMMM dd, yyyy")
+                            </p>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex gap-2" data-automation-id="action-buttons">
+                    <a asp-action="Index" class="btn btn-outline-secondary" data-automation-id="back-to-list-btn">
+                        ← Back to List
+                    </a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary" data-automation-id="edit-btn">
+                            Edit Product
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger" data-automation-id="delete-btn">
+                            Delete Product
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card" data-automation-id="product-info-sidebar">
+            <div class="card-header">
+                <h5 class="mb-0">Product Information</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between" data-automation-id="info-id">
+                    <span>Product ID</span>
+                    <strong>@Model.Id</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between" data-automation-id="info-category">
+                    <span>Category</span>
+                    <strong>@Model.Category</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between" data-automation-id="info-status">
+                    <span>Status</span>
+                    <strong>@(Model.IsActive ? "Active" : "Inactive")</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between" data-automation-id="info-stock">
+                    <span>Stock</span>
+                    <strong>@Model.StockQuantity units</strong>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

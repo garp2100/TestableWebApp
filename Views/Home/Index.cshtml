@@ -1,0 +1,97 @@
+@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="jumbotron bg-primary text-white p-5 rounded mb-4" data-automation-id="hero-section">
+    <h1 class="display-4" data-automation-id="hero-title">Welcome to TestableWebApp</h1>
+    <p class="lead" data-automation-id="hero-subtitle">A .NET Core MVC application built for QA automation practice</p>
+    <hr class="my-4">
+    <p data-automation-id="hero-description">This application includes user authentication, product management, orders, and REST APIs - perfect for practicing automated testing.</p>
+    <div class="d-flex gap-2">
+        <a class="btn btn-light btn-lg" asp-controller="Products" asp-action="Index" data-automation-id="hero-cta-products">
+            Browse Products
+        </a>
+        @if (!User.Identity?.IsAuthenticated ?? true)
+        {
+            <a class="btn btn-outline-light btn-lg" asp-controller="Account" asp-action="Register" data-automation-id="hero-cta-register">
+                Get Started
+            </a>
+        }
+    </div>
+</div>
+
+<section data-automation-id="featured-products-section">
+    <h2 class="mb-4" data-automation-id="featured-title">Featured Products</h2>
+    <div class="row" data-automation-id="featured-products-grid">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-3 mb-4" data-automation-id="product-card-@product.Id">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title" data-automation-id="product-name-@product.Id">@product.Name</h5>
+                        <p class="card-text text-muted" data-automation-id="product-category-@product.Id">@product.Category</p>
+                        <p class="card-text" data-automation-id="product-description-@product.Id">
+                            @(product.Description?.Length > 100 ? product.Description.Substring(0, 100) + "..." : product.Description)
+                        </p>
+                        <p class="card-text fw-bold text-primary" data-automation-id="product-price-@product.Id">
+                            $@product.Price.ToString("F2")
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" 
+                           class="btn btn-outline-primary btn-sm" data-automation-id="product-details-btn-@product.Id">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="text-center mt-3">
+        <a asp-controller="Products" asp-action="Index" class="btn btn-primary" data-automation-id="view-all-products-btn">
+            View All Products
+        </a>
+    </div>
+</section>
+
+<section class="mt-5" data-automation-id="features-section">
+    <h2 class="mb-4" data-automation-id="features-title">Application Features</h2>
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <div class="card h-100" data-automation-id="feature-auth">
+                <div class="card-body">
+                    <h5 class="card-title">🔐 User Authentication</h5>
+                    <p class="card-text">Register, login, logout with ASP.NET Core Identity. Role-based authorization (Admin/User).</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card h-100" data-automation-id="feature-products">
+                <div class="card-body">
+                    <h5 class="card-title">📦 Product Management</h5>
+                    <p class="card-text">Full CRUD operations on products. Search, filter by category, manage inventory.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card h-100" data-automation-id="feature-api">
+                <div class="card-body">
+                    <h5 class="card-title">🔌 REST APIs</h5>
+                    <p class="card-text">Complete REST API with Swagger documentation. Perfect for API automation testing.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mt-5 mb-4" data-automation-id="test-credentials-section">
+    <h2 class="mb-4" data-automation-id="credentials-title">Test Credentials</h2>
+    <div class="alert alert-info" data-automation-id="credentials-info">
+        <h5>For Testing Purposes:</h5>
+        <ul class="mb-0">
+            <li data-automation-id="admin-credentials"><strong>Admin:</strong> admin@test.com / Admin123!</li>
+            <li data-automation-id="user-credentials"><strong>User:</strong> user@test.com / User123!</li>
+        </ul>
+    </div>
+</section>
