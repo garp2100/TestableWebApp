@@ -1,0 +1,175 @@
+# =============================================================================
+# GitHub Actions - Automation Test Pipeline
+# =============================================================================
+# This workflow runs Selenium and Playwright tests against the web app.
+# Can be triggered manually or after deployment.
+#
+# Required GitHub Secrets:
+#   - TEST_BASE_URL: URL of the deployed app (e.g., https://testablewebapp-xxx.a.run.app)
+# =============================================================================
+
+name: Automation Tests
+
+on:
+  # Manual trigger with input
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: 'Base URL to test against'
+        required: true
+        default: 'http://localhost:5000'
+      browser:
+        description: 'Browser to use'
+        required: true
+        default: 'chrome'
+        type: choice
+        options:
+          - chrome
+          - firefox
+          - edge
+
+  # Run after CI/CD completes
+  workflow_run:
+    workflows: ["CI/CD Pipeline"]
+    types:
+      - completed
+    branches: [main]
+
+env:
+  DOTNET_VERSION: '8.0.x'
+
+jobs:
+  # ===========================================================================
+  # SELENIUM TESTS
+  # ===========================================================================
+  selenium-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Setup Chrome
+      uses: browser-actions/setup-chrome@v1
+      with:
+        chrome-version: stable
+
+    - name: Restore Selenium Framework
+      run: |
+        cd SeleniumFramework
+        dotnet restore
+
+    - name: Build Selenium Framework
+      run: |
+        cd SeleniumFramework
+        dotnet build --configuration Release --no-restore
+
+    - name: Run Selenium Tests
+      run: |
+        cd SeleniumFramework
+        dotnet test --configuration Release --no-build --verbosity normal --logger trx --results-directory "TestResults"
+      env:
+        BaseUrl: ${{ github.event.inputs.base_url || secrets.TEST_BASE_URL || 'http://localhost:5000' }}
+        Browser: ${{ github.event.inputs.browser || 'chrome' }}
+        Headless: 'true'
+
+    - name: Upload Selenium Test Results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: selenium-test-results
+        path: SeleniumFramework/TestResults
+        retention-days: 30
+
+    - name: Upload Screenshots (on failure)
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: selenium-screenshots
+        path: SeleniumFramework/Screenshots
+        retention-days: 7
+
+  # ===========================================================================
+  # PLAYWRIGHT TESTS
+  # ===========================================================================
+  playwright-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Restore Playwright Framework
+      run: |
+        cd PlaywrightFramework
+        dotnet restore
+
+    - name: Build Playwright Framework
+      run: |
+        cd PlaywrightFramework
+        dotnet build --configuration Release --no-restore
+
+    - name: Install Playwright Browsers
+      run: |
+        cd PlaywrightFramework
+        pwsh bin/Release/net8.0/playwright.ps1 install --with-deps
+
+    - name: Run Playwright Tests
+      run: |
+        cd PlaywrightFramework
+        dotnet test --configuration Release --no-build --verbosity normal --logger trx --results-directory "TestResults"
+      env:
+        BaseUrl: ${{ github.event.inputs.base_url || secrets.TEST_BASE_URL || 'http://localhost:5000' }}
+        Headless: 'true'
+
+    - name: Upload Playwright Test Results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-test-results
+        path: PlaywrightFramework/TestResults
+        retention-days: 30
+
+    - name: Upload Playwright Report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report
+        path: PlaywrightFramework/playwright-report
+        retention-days: 7
+
+    - name: Upload Videos (on failure)
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: playwright-videos
+        path: PlaywrightFramework/Videos
+        retention-days: 7
+
+  # ===========================================================================
+  # TEST SUMMARY
+  # ===========================================================================
+  test-summary:
+    runs-on: ubuntu-latest
+    needs: [selenium-tests, playwright-tests]
+    if: always()
+    
+    steps:
+    - name: Test Summary
+      run: |
+        echo "## Test Results Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "| Framework | Status |" >> $GITHUB_STEP_SUMMARY
+        echo "|-----------|--------|" >> $GITHUB_STEP_SUMMARY
+        echo "| Selenium | ${{ needs.selenium-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Playwright | ${{ needs.playwright-tests.result }} |" >> $GITHUB_STEP_SUMMARY

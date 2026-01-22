@@ -1,0 +1,136 @@
+# =============================================================================
+# GitHub Actions CI/CD Pipeline for QA Portfolio
+# =============================================================================
+# This workflow:
+#   1. Builds and tests all three projects
+#   2. Optionally deploys to Google Cloud Run (on main branch)
+#
+# Required GitHub Secrets for deployment:
+#   - GCP_PROJECT_ID: Your Google Cloud project ID
+#   - GCP_SA_KEY: Service account JSON key (base64 encoded)
+#   - DB_PASSWORD: Cloud SQL database password
+# =============================================================================
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  DOTNET_VERSION: '8.0.x'
+
+jobs:
+  # ===========================================================================
+  # BUILD & TEST JOB
+  # ===========================================================================
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build solution
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Run unit tests
+      run: dotnet test --configuration Release --no-build --verbosity normal --logger trx --results-directory "TestResults"
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results
+        path: TestResults
+        retention-days: 30
+
+  # ===========================================================================
+  # BUILD WEB APP JOB
+  # ===========================================================================
+  build-webapp:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Publish Web App
+      run: |
+        cd TestableWebApp
+        dotnet publish -c Release -o ./publish
+
+    - name: Upload published app
+      uses: actions/upload-artifact@v4
+      with:
+        name: webapp-publish
+        path: TestableWebApp/publish
+        retention-days: 7
+
+  # ===========================================================================
+  # DEPLOY TO GOOGLE CLOUD RUN (only on main branch)
+  # ===========================================================================
+  deploy-to-gcp:
+    runs-on: ubuntu-latest
+    needs: build-webapp
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    # Only run if secrets are configured
+    environment: production
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+    - name: Setup Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@v2
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+    - name: Configure Docker for GCR
+      run: gcloud auth configure-docker --quiet
+
+    - name: Build and push Docker image
+      run: |
+        cd TestableWebApp
+        docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/testablewebapp:${{ github.sha }} .
+        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/testablewebapp:${{ github.sha }}
+
+    - name: Deploy to Cloud Run
+      run: |
+        gcloud run deploy testablewebapp \
+          --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/testablewebapp:${{ github.sha }} \
+          --platform managed \
+          --region us-central1 \
+          --allow-unauthenticated \
+          --add-cloudsql-instances ${{ secrets.GCP_PROJECT_ID }}:us-central1:qa-portfolio-db \
+          --set-env-vars "ASPNETCORE_ENVIRONMENT=Production" \
+          --set-env-vars "ConnectionStrings__DefaultConnection=Host=/cloudsql/${{ secrets.GCP_PROJECT_ID }}:us-central1:qa-portfolio-db;Database=testablewebapp;Username=postgres;Password=${{ secrets.DB_PASSWORD }}" \
+          --quiet
+
+    - name: Get Service URL
+      run: |
+        URL=$(gcloud run services describe testablewebapp --region us-central1 --format="value(status.url)")
+        echo "🚀 Deployed to: $URL"
+        echo "📖 Swagger: $URL/swagger"
