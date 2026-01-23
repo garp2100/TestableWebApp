@@ -161,6 +161,7 @@ $RECYCLE.BIN/
 *.tmp
 *.temp
 *.swp
+*.env
 publish/
 PublishOutput/
 node_modules/
