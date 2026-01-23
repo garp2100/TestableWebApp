@@ -72,9 +72,7 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
     - name: Publish Web App
-      run: |
-        cd TestableWebApp
-        dotnet publish -c Release -o ./publish
+      run: dotnet publish -c Release -o ./publish
 
     - name: Upload published app
       uses: actions/upload-artifact@v4
@@ -113,7 +111,6 @@ jobs:
 
     - name: Build and push Docker image
       run: |
-        cd TestableWebApp
         docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/testablewebapp:${{ github.sha }} .
         docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/testablewebapp:${{ github.sha }}
 
