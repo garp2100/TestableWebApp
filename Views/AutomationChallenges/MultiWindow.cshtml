@@ -1,0 +1,77 @@
+@{
+    ViewData["Title"] = "Challenge 4: Multi-Window & Tab Management";
+}
+
+<div class="container py-4" data-automation-id="multiwindow-container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index")">Challenges</a></li>
+                    <li class="breadcrumb-item active">Multi-Window</li>
+                </ol>
+            </nav>
+            <h1 class="display-5" data-automation-id="page-title">Challenge 4: Multi-Window & Tab Management</h1>
+            <p class="lead text-muted" data-automation-id="page-subtitle">
+                Handling new tabs and popup windows
+            </p>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="alert alert-success" data-automation-id="challenge-description">
+                <h5><i class="bi bi-exclamation-triangle"></i> The Challenge</h5>
+                <p>
+                    Many web applications open new tabs or popup windows. The driver remains focused on the
+                    original window unless you explicitly switch to the new one.
+                </p>
+                <p class="mb-0">
+                    <strong>Your Task:</strong> Manage multiple browser windows and switch between them.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Scenario 1: Open New Tab</h5>
+                </div>
+                <div class="card-body">
+                    <button class="btn btn-primary" 
+                            data-automation-id="btn-open-new-tab"
+                            onclick="openNewTab()">
+                        <i class="bi bi-window-plus"></i> Open New Tab
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Scenario 2: Popup Window</h5>
+                </div>
+                <div class="card-body">
+                    <button class="btn btn-success" 
+                            data-automation-id="btn-open-popup"
+                            onclick="openPopup()">
+                        <i class="bi bi-window"></i> Open Popup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openNewTab() {
+        window.open('/AutomationChallenges/NewTabContent?source=new-tab', '_blank');
+    }
+
+    function openPopup() {
+        window.open('/AutomationChallenges/PopupWindow', 'popup', 'width=600,height=400');
+    }
+</script>

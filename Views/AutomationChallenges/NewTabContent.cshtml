@@ -1,0 +1,16 @@
+@{
+    ViewData["Title"] = "New Tab Content";
+}
+
+<div class="container py-5 text-center" data-automation-id="new-tab-content">
+    <div class="card shadow">
+        <div class="card-body">
+            <h2><i class="bi bi-window"></i> New Tab Opened Successfully</h2>
+            <p class="lead">Opened at: @DateTime.Now.ToString("HH:mm:ss")</p>
+            <p>Source: @ViewBag.Source</p>
+            <button class="btn btn-primary" data-automation-id="btn-close-tab" onclick="window.close()">
+                Close This Tab
+            </button>
+        </div>
+    </div>
+</div>

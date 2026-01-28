@@ -1,0 +1,97 @@
+@{
+    ViewData["Title"] = "Challenge 6: File Operations";
+}
+
+<div class="container py-4" data-automation-id="file-operations-container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index")">Challenges</a></li>
+                    <li class="breadcrumb-item active">File Operations</li>
+                </ol>
+            </nav>
+            <h1 class="display-5" data-automation-id="page-title">Challenge 6: File Operations</h1>
+            <p class="lead text-muted">Upload and download files</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">File Upload</h5>
+                </div>
+                <div class="card-body">
+                    <input type="file" 
+                           class="form-control" 
+                           id="file-input" 
+                           data-automation-id="file-input"
+                           onchange="uploadFile()">
+                    <div class="mt-3" id="upload-result" data-automation-id="upload-result"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">File Download</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="@Url.Action("DownloadSampleFile", new { fileType = "txt" })" 
+                           class="btn btn-success" 
+                           data-automation-id="btn-download-txt">
+                            Download TXT
+                        </a>
+                        <a href="@Url.Action("DownloadSampleFile", new { fileType = "csv" })" 
+                           class="btn btn-info" 
+                           data-automation-id="btn-download-csv">
+                            Download CSV
+                        </a>
+                        <a href="@Url.Action("DownloadSampleFile", new { fileType = "json" })" 
+                           class="btn btn-warning" 
+                           data-automation-id="btn-download-json">
+                            Download JSON
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function uploadFile() {
+        const input = document.getElementById('file-input');
+        const result = document.getElementById('upload-result');
+        
+        if (!input.files || !input.files[0]) return;
+        
+        const formData = new FormData();
+        formData.append('file', input.files[0]);
+        
+        result.innerHTML = '<div class="spinner-border spinner-border-sm"></div> Uploading...';
+        
+        try {
+            const response = await fetch('/AutomationChallenges/UploadFile', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            
+            if (data.success) {
+                result.innerHTML = `<div class="alert alert-success">
+                    <strong>Upload successful!</strong><br>
+                    File: <span data-automation-id="uploaded-filename">${data.fileName}</span><br>
+                    Size: ${data.fileSize} bytes
+                </div>`;
+            } else {
+                result.innerHTML = `<div class="alert alert-danger">Error: ${data.error}</div>`;
+            }
+        } catch (error) {
+            result.innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
+        }
+    }
+</script>

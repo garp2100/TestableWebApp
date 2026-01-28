@@ -1,0 +1,383 @@
+@{
+    ViewData["Title"] = "Challenge 2: Shadow DOM & iFrames";
+}
+
+<div class="container py-4" data-automation-id="shadow-frames-container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index")">Challenges</a></li>
+                    <li class="breadcrumb-item active">Shadow DOM & iFrames</li>
+                </ol>
+            </nav>
+            <h1 class="display-5" data-automation-id="page-title">Challenge 2: Shadow DOM & iFrames</h1>
+            <p class="lead text-muted" data-automation-id="page-subtitle">
+                Elements hidden inside Shadow Roots and nested iFrames
+            </p>
+        </div>
+    </div>
+
+    <!-- Challenge Description -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="alert alert-danger" data-automation-id="challenge-description">
+                <h5><i class="bi bi-exclamation-triangle"></i> The Challenge</h5>
+                <p>
+                    Shadow DOM creates encapsulated component trees that are invisible to standard DOM queries.
+                    Similarly, iFrames create separate document contexts. Both require special handling in Selenium.
+                </p>
+                <p class="mb-0">
+                    <strong>Your Task:</strong> Access and interact with elements nested inside Shadow DOM components
+                    and multiple levels of iFrames.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Solution Strategies -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-info">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="bi bi-lightbulb"></i> Recommended Solutions</h5>
+                </div>
+                <div class="card-body">
+                    <h6>For Shadow DOM (Selenium 4):</h6>
+                    <ul>
+                        <li>Use <code>element.getShadowRoot()</code> to access Shadow Root</li>
+                        <li>Or use JavaScript Executor: <code>return arguments[0].shadowRoot</code></li>
+                        <li>Chain shadow root access for nested components</li>
+                    </ul>
+                    <h6 class="mt-3">For iFrames:</h6>
+                    <ul class="mb-0">
+                        <li>Use <code>driver.switchTo().frame()</code> to enter frame context</li>
+                        <li>Use <code>driver.switchTo().defaultContent()</code> to return to main page</li>
+                        <li>Remember to switch back after interacting with frame elements</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Scenarios -->
+    <div class="row g-4">
+        <!-- Scenario 1: Shadow DOM Component -->
+        <div class="col-md-6">
+            <div class="card h-100" data-automation-id="shadow-dom-scenario">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Scenario 1: Shadow DOM Component</h5>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted">Custom web component with encapsulated Shadow DOM</p>
+                    
+                    <!-- Shadow DOM Custom Element will be created here -->
+                    <div id="shadow-host" data-automation-id="shadow-host">
+                        <!-- Shadow DOM will be attached to this element -->
+                    </div>
+                    
+                    <div class="mt-3" data-automation-id="shadow-result-container">
+                        <strong>Shadow DOM Status:</strong>
+                        <span id="shadow-status" class="badge bg-secondary" data-automation-id="shadow-status">Not Initialized</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scenario 2: Nested Shadow DOM -->
+        <div class="col-md-6">
+            <div class="card h-100" data-automation-id="nested-shadow-scenario">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">Scenario 2: Nested Shadow DOM</h5>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted">Shadow DOM inside another Shadow DOM</p>
+                    
+                    <div id="nested-shadow-host" data-automation-id="nested-shadow-host">
+                        <!-- Nested Shadow DOM structure -->
+                    </div>
+                    
+                    <div class="mt-3" data-automation-id="nested-result-container">
+                        <strong>Nested Shadow Status:</strong>
+                        <span id="nested-shadow-status" class="badge bg-secondary" data-automation-id="nested-shadow-status">Not Initialized</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scenario 3: Single iFrame -->
+        <div class="col-md-6">
+            <div class="card h-100" data-automation-id="iframe-scenario">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Scenario 3: Single iFrame</h5>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted">Content in a separate frame context</p>
+                    
+                    <iframe id="content-frame-1" 
+                            name="content-frame-1"
+                            data-automation-id="iframe-single"
+                            src="@Url.Action("FrameContent", new { frameNumber = 1 })" 
+                            style="width: 100%; height: 300px; border: 2px solid #28a745;">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scenario 4: Nested iFrames -->
+        <div class="col-md-6">
+            <div class="card h-100" data-automation-id="nested-iframe-scenario">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0">Scenario 4: Nested iFrames</h5>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted">iFrame containing another iFrame</p>
+                    
+                    <iframe id="content-frame-2" 
+                            name="content-frame-2"
+                            data-automation-id="iframe-nested-parent"
+                            src="@Url.Action("FrameContent", new { frameNumber = 2 })" 
+                            style="width: 100%; height: 350px; border: 2px solid #dc3545;">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scenario 5: Shadow DOM inside iFrame -->
+        <div class="col-12">
+            <div class="card" data-automation-id="combined-scenario">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">Scenario 5: Shadow DOM inside iFrame (Expert Level)</h5>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted">The ultimate challenge: Shadow DOM component inside an iFrame</p>
+                    
+                    <iframe id="shadow-frame" 
+                            name="shadow-frame"
+                            data-automation-id="iframe-with-shadow"
+                            src="@Url.Action("FrameContent", new { frameNumber = 3 })" 
+                            style="width: 100%; height: 400px; border: 3px solid #343a40;">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testing Guide -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card border-info">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="bi bi-code-square"></i> Testing Guide</h5>
+                </div>
+                <div class="card-body">
+                    <h6>Selenium 4 Example (C#):</h6>
+                    <pre class="bg-light p-3 rounded"><code>// Accessing Shadow DOM
+IWebElement shadowHost = driver.FindElement(By.CssSelector("#shadow-host"));
+ISearchContext shadowRoot = shadowHost.GetShadowRoot();
+IWebElement shadowButton = shadowRoot.FindElement(By.CssSelector("button"));
+
+// Switching to iFrame
+driver.SwitchTo().Frame("content-frame-1");
+IWebElement frameButton = driver.FindElement(By.Id("frame-button"));
+frameButton.Click();
+driver.SwitchTo().DefaultContent(); // Always return to main content!
+
+// Nested iFrames
+driver.SwitchTo().Frame("content-frame-2");
+driver.SwitchTo().Frame("nested-frame");
+IWebElement nestedButton = driver.FindElement(By.Id("nested-button"));
+driver.SwitchTo().DefaultContent();</code></pre>
+                    
+                    <h6 class="mt-3">Playwright Example (C#):</h6>
+                    <pre class="bg-light p-3 rounded"><code>// Accessing Shadow DOM in Playwright
+var shadowHost = await page.QuerySelectorAsync("#shadow-host");
+var shadowButton = await shadowHost.QuerySelectorAsync("button");
+
+// iFrame handling in Playwright
+var frame = page.Frame("content-frame-1");
+await frame.ClickAsync("#frame-button");
+
+// Nested frames
+var parentFrame = page.Frame("content-frame-2");
+var childFrame = parentFrame.ChildFrames.First();
+await childFrame.ClickAsync("#nested-button");</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Create Shadow DOM Component for Scenario 1
+        const shadowHost = document.getElementById('shadow-host');
+        const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
+        
+        shadowRoot.innerHTML = `
+            <style>
+                .shadow-container {
+                    padding: 20px;
+                    background-color: #e3f2fd;
+                    border-radius: 8px;
+                    border: 2px solid #2196f3;
+                }
+                .shadow-button {
+                    padding: 10px 20px;
+                    background-color: #2196f3;
+                    color: white;
+                    border: none;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    margin-right: 10px;
+                }
+                .shadow-button:hover {
+                    background-color: #1976d2;
+                }
+                .shadow-input {
+                    padding: 8px;
+                    margin-top: 10px;
+                    border: 1px solid #2196f3;
+                    border-radius: 4px;
+                    width: 100%;
+                }
+                .shadow-output {
+                    margin-top: 15px;
+                    padding: 10px;
+                    background-color: white;
+                    border-radius: 4px;
+                    min-height: 40px;
+                }
+            </style>
+            <div class="shadow-container">
+                <h6>Inside Shadow DOM</h6>
+                <p>This content is encapsulated in a Shadow Root</p>
+                <button class="shadow-button" 
+                        id="shadow-button-1" 
+                        data-automation-id="shadow-button-click">
+                    Click Me (Shadow DOM)
+                </button>
+                <button class="shadow-button" 
+                        id="shadow-button-2" 
+                        data-automation-id="shadow-button-submit">
+                    Submit (Shadow DOM)
+                </button>
+                <input type="text" 
+                       class="shadow-input" 
+                       id="shadow-input" 
+                       data-automation-id="shadow-input-text"
+                       placeholder="Type here (Shadow DOM input)">
+                <div class="shadow-output" 
+                     id="shadow-output" 
+                     data-automation-id="shadow-output">
+                    <em>Click buttons or type to interact</em>
+                </div>
+            </div>
+        `;
+        
+        // Add event listeners to shadow DOM elements
+        shadowRoot.getElementById('shadow-button-1').addEventListener('click', function() {
+            shadowRoot.getElementById('shadow-output').innerHTML = 
+                '<strong>Shadow DOM Button 1 Clicked!</strong> Timestamp: ' + new Date().toLocaleTimeString();
+            document.getElementById('shadow-status').textContent = 'Button 1 Clicked';
+            document.getElementById('shadow-status').className = 'badge bg-success';
+        });
+        
+        shadowRoot.getElementById('shadow-button-2').addEventListener('click', function() {
+            const inputValue = shadowRoot.getElementById('shadow-input').value;
+            shadowRoot.getElementById('shadow-output').innerHTML = 
+                '<strong>Shadow DOM Button 2 Clicked!</strong><br>Input value: ' + (inputValue || '(empty)');
+            document.getElementById('shadow-status').textContent = 'Button 2 Clicked';
+            document.getElementById('shadow-status').className = 'badge bg-info';
+        });
+        
+        shadowRoot.getElementById('shadow-input').addEventListener('input', function(e) {
+            document.getElementById('shadow-status').textContent = 'Typing: ' + e.target.value.substring(0, 20);
+            document.getElementById('shadow-status').className = 'badge bg-warning text-dark';
+        });
+        
+        document.getElementById('shadow-status').textContent = 'Initialized';
+        document.getElementById('shadow-status').className = 'badge bg-success';
+        
+        // Create Nested Shadow DOM for Scenario 2
+        const nestedShadowHost = document.getElementById('nested-shadow-host');
+        const nestedShadowRoot = nestedShadowHost.attachShadow({ mode: 'open' });
+        
+        nestedShadowRoot.innerHTML = `
+            <style>
+                .outer-shadow {
+                    padding: 15px;
+                    background-color: #fff3cd;
+                    border: 2px solid #ffc107;
+                    border-radius: 8px;
+                }
+                .inner-shadow-host {
+                    margin-top: 15px;
+                }
+            </style>
+            <div class="outer-shadow">
+                <h6>Outer Shadow DOM (Level 1)</h6>
+                <button id="outer-button" 
+                        data-automation-id="nested-shadow-outer-button"
+                        style="padding: 8px 16px; background-color: #ffc107; border: none; border-radius: 4px; cursor: pointer;">
+                    Outer Shadow Button
+                </button>
+                <div class="inner-shadow-host" id="inner-shadow-host"></div>
+            </div>
+        `;
+        
+        // Create inner shadow DOM
+        const innerShadowHost = nestedShadowRoot.getElementById('inner-shadow-host');
+        const innerShadowRoot = innerShadowHost.attachShadow({ mode: 'open' });
+        
+        innerShadowRoot.innerHTML = `
+            <style>
+                .inner-shadow {
+                    padding: 15px;
+                    background-color: #f8d7da;
+                    border: 2px solid #dc3545;
+                    border-radius: 8px;
+                    margin-top: 10px;
+                }
+                .inner-button {
+                    padding: 8px 16px;
+                    background-color: #dc3545;
+                    color: white;
+                    border: none;
+                    border-radius: 4px;
+                    cursor: pointer;
+                }
+            </style>
+            <div class="inner-shadow">
+                <h6>Inner Shadow DOM (Level 2)</h6>
+                <p class="small">This is nested inside another Shadow DOM!</p>
+                <button class="inner-button" 
+                        id="inner-button" 
+                        data-automation-id="nested-shadow-inner-button">
+                    Inner Shadow Button
+                </button>
+                <div id="inner-output" 
+                     data-automation-id="nested-shadow-output"
+                     style="margin-top: 10px; padding: 10px; background-color: white; border-radius: 4px;">
+                    Click button to test
+                </div>
+            </div>
+        `;
+        
+        // Add event listeners to nested shadow DOM
+        nestedShadowRoot.getElementById('outer-button').addEventListener('click', function() {
+            document.getElementById('nested-shadow-status').textContent = 'Outer Button Clicked';
+            document.getElementById('nested-shadow-status').className = 'badge bg-warning text-dark';
+        });
+        
+        innerShadowRoot.getElementById('inner-button').addEventListener('click', function() {
+            innerShadowRoot.getElementById('inner-output').innerHTML = 
+                '<strong>Inner Shadow Button Clicked!</strong><br>You accessed nested shadow DOM successfully!';
+            document.getElementById('nested-shadow-status').textContent = 'Inner Button Clicked';
+            document.getElementById('nested-shadow-status').className = 'badge bg-danger';
+        });
+        
+        document.getElementById('nested-shadow-status').textContent = 'Initialized (2 Levels)';
+        document.getElementById('nested-shadow-status').className = 'badge bg-success';
+    });
+</script>

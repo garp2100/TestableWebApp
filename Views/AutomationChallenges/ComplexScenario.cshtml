@@ -1,0 +1,62 @@
+@{
+    ViewData["Title"] = "Complex End-to-End Scenario";
+}
+
+<div class="container py-4" data-automation-id="complex-scenario-container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index")">Challenges</a></li>
+                    <li class="breadcrumb-item active">Complex Scenario</li>
+                </ol>
+            </nav>
+            <h1 class="display-4" data-automation-id="page-title">Complex End-to-End Scenario</h1>
+            <p class="lead text-muted">Multi-step workflow combining all challenges</p>
+        </div>
+    </div>
+
+    <div class="alert alert-danger">
+        <h5><i class="bi bi-trophy"></i> Expert Challenge</h5>
+        <p class="mb-0">
+            This scenario combines dynamic elements, async operations, shadow DOM, and file handling
+            in a single workflow. Complete all steps to pass this challenge.
+        </p>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5>Workflow Steps:</h5>
+            <ol>
+                <li>Fill dynamic form with generated ID</li>
+                <li>Wait for async validation</li>
+                <li>Interact with shadow DOM component</li>
+                <li>Handle popup confirmation</li>
+                <li>Complete workflow</li>
+            </ol>
+
+            <form id="complex-form-@ViewBag.SessionId" data-automation-id="complex-workflow-form">
+                <div class="mb-3">
+                    <label class="form-label">Step 1: User Info</label>
+                    <input type="text" class="form-control" data-automation-id="complex-input-name" placeholder="Name">
+                </div>
+
+                <button type="button" class="btn btn-primary" data-automation-id="btn-start-workflow" onclick="startWorkflow()">
+                    Start Complex Workflow
+                </button>
+            </form>
+
+            <div class="mt-3" id="workflow-status" data-automation-id="workflow-status"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function startWorkflow() {
+        const status = document.getElementById('workflow-status');
+        status.innerHTML = '<div class="alert alert-info">Workflow started...</div>';
+        
+        await new Promise(r => setTimeout(r, 1000));
+        status.innerHTML = '<div class="alert alert-success">Workflow completed successfully!</div>';
+    }
+</script>

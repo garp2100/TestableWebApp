@@ -1,0 +1,431 @@
+@{
+    ViewData["Title"] = "Challenge 3: Asynchronous Loading (AJAX)";
+}
+
+<div class="container py-4" data-automation-id="async-loading-container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index")">Challenges</a></li>
+                    <li class="breadcrumb-item active">Async Loading</li>
+                </ol>
+            </nav>
+            <h1 class="display-5" data-automation-id="page-title">Challenge 3: Asynchronous Loading (AJAX)</h1>
+            <p class="lead text-muted" data-automation-id="page-subtitle">
+                Content that loads without page refresh
+            </p>
+        </div>
+    </div>
+
+    <!-- Challenge Description -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="alert alert-info" data-automation-id="challenge-description">
+                <h5><i class="bi bi-exclamation-triangle"></i> The Challenge</h5>
+                <p>
+                    Modern web apps load content asynchronously using AJAX, which means elements appear after
+                    the initial page load. This leads to timing issues like ElementNotVisibleException and
+                    StaleElementReferenceException.
+                </p>
+                <p class="mb-0">
+                    <strong>Your Task:</strong> Handle async content loading with proper wait strategies.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Solution Strategies -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-info">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="bi bi-lightbulb"></i> Recommended Solutions</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="mb-0">
+                        <li>Replace <code>Thread.Sleep()</code> with Explicit Waits</li>
+                        <li>Use <code>WebDriverWait</code> with <code>ExpectedConditions</code></li>
+                        <li>Implement Fluent Waits for custom conditions</li>
+                        <li>Wait for elements to be clickable, not just present</li>
+                        <li>Handle stale element references with retry logic</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Scenarios -->
+    <div class="row g-4">
+        <!-- Scenario 1: Simple Delayed Loading -->
+        <div class="col-md-6">
+            <div class="card h-100" data-automation-id="simple-async-scenario">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Scenario 1: Simple Delayed Loading</h5>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted">Content loads after 2-second delay</p>
+                    
+                    <button class="btn btn-primary" 
+                            id="btn-load-simple" 
+                            data-automation-id="btn-load-products"
+                            onclick="loadSimpleContent()">
+                        <i class="bi bi-download"></i> Load Products
+                    </button>
+                    
+                    <div class="mt-3" id="loading-indicator" data-automation-id="loading-indicator" style="display:none;">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <span class="ms-2">Loading products...</span>
+                    </div>
+                    
+                    <div class="mt-3" id="async-content" data-automation-id="async-content" style="display:none;">
+                        <!-- Content will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scenario 2: Progressive Loading -->
+        <div class="col-md-6">
+            <div class="card h-100" data-automation-id="progressive-async-scenario">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Scenario 2: Progressive Loading</h5>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted">Items load one by one</p>
+                    
+                    <button class="btn btn-success" 
+                            id="btn-load-progressive" 
+                            data-automation-id="btn-load-progressive"
+                            onclick="loadProgressiveContent()">
+                        <i class="bi bi-arrow-down-circle"></i> Load Items Progressively
+                    </button>
+                    
+                    <div class="mt-3">
+                        <div class="progress" data-automation-id="progress-bar" style="display:none;">
+                            <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" 
+                                 role="progressbar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3" id="progressive-content" data-automation-id="progressive-content">
+                        <div class="list-group" id="item-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scenario 3: Stale Element Reference -->
+        <div class="col-md-6">
+            <div class="card h-100" data-automation-id="stale-element-scenario">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">Scenario 3: Stale Element Reference</h5>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted">Elements are replaced in DOM after interactions</p>
+                    
+                    <button class="btn btn-warning" 
+                            id="btn-refresh-list" 
+                            data-automation-id="btn-refresh-list"
+                            onclick="refreshList()">
+                        <i class="bi bi-arrow-clockwise"></i> Refresh List
+                    </button>
+                    
+                    <div class="mt-3" id="dynamic-list" data-automation-id="dynamic-list">
+                        <div class="list-group">
+                            <button type="button" 
+                                    class="list-group-item list-group-item-action list-item" 
+                                    data-automation-id="dynamic-item-1"
+                                    data-item-id="1"
+                                    onclick="selectItem(1)">
+                                Item 1 - Click to select
+                            </button>
+                            <button type="button" 
+                                    class="list-group-item list-group-item-action list-item" 
+                                    data-automation-id="dynamic-item-2"
+                                    data-item-id="2"
+                                    onclick="selectItem(2)">
+                                Item 2 - Click to select
+                            </button>
+                            <button type="button" 
+                                    class="list-group-item list-group-item-action list-item" 
+                                    data-automation-id="dynamic-item-3"
+                                    data-item-id="3"
+                                    onclick="selectItem(3)">
+                                Item 3 - Click to select
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3 alert alert-info d-none" 
+                         id="selection-result" 
+                         data-automation-id="selection-result">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scenario 4: Multiple Concurrent Async Operations -->
+        <div class="col-md-6">
+            <div class="card h-100" data-automation-id="concurrent-async-scenario">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0">Scenario 4: Concurrent Operations</h5>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted">Multiple async operations at once</p>
+                    
+                    <button class="btn btn-danger" 
+                            id="btn-load-all" 
+                            data-automation-id="btn-load-all"
+                            onclick="loadAllConcurrent()">
+                        <i class="bi bi-lightning"></i> Load All Data
+                    </button>
+                    
+                    <div class="mt-3 row g-2">
+                        <div class="col-4">
+                            <div class="card border-primary">
+                                <div class="card-body text-center">
+                                    <div class="spinner-border spinner-border-sm text-primary d-none" 
+                                         id="spinner-users" 
+                                         data-automation-id="spinner-users"></div>
+                                    <h6 class="card-title">Users</h6>
+                                    <p class="card-text" id="users-count" data-automation-id="users-count">-</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card border-success">
+                                <div class="card-body text-center">
+                                    <div class="spinner-border spinner-border-sm text-success d-none" 
+                                         id="spinner-products" 
+                                         data-automation-id="spinner-products"></div>
+                                    <h6 class="card-title">Products</h6>
+                                    <p class="card-text" id="products-count" data-automation-id="products-count">-</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card border-warning">
+                                <div class="card-body text-center">
+                                    <div class="spinner-border spinner-border-sm text-warning d-none" 
+                                         id="spinner-notifications" 
+                                         data-automation-id="spinner-notifications"></div>
+                                    <h6 class="card-title">Alerts</h6>
+                                    <p class="card-text" id="notifications-count" data-automation-id="notifications-count">-</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <span class="badge bg-secondary" id="load-status" data-automation-id="load-status">Ready</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testing Guide -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card border-info">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="bi bi-code-square"></i> Testing Guide</h5>
+                </div>
+                <div class="card-body">
+                    <h6>Selenium 4 Example (C#):</h6>
+                    <pre class="bg-light p-3 rounded"><code>// Bad: Using Thread.Sleep
+Thread.Sleep(2000); // Don't do this!
+
+// Good: Using WebDriverWait with Explicit Wait
+var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+var element = wait.Until(d => {
+    var el = d.FindElement(By.CssSelector("[data-automation-id='async-content']"));
+    return el.Displayed && !string.IsNullOrEmpty(el.Text) ? el : null;
+});
+
+// Handle Stale Element Reference
+int retries = 3;
+for (int i = 0; i < retries; i++) {
+    try {
+        element.Click();
+        break;
+    } catch (StaleElementReferenceException) {
+        if (i == retries - 1) throw;
+        element = driver.FindElement(By.CssSelector("[data-automation-id='dynamic-item-1']"));
+    }
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function loadSimpleContent() {
+        const btn = document.getElementById('btn-load-simple');
+        const loading = document.getElementById('loading-indicator');
+        const content = document.getElementById('async-content');
+        
+        btn.disabled = true;
+        loading.style.display = 'block';
+        content.style.display = 'none';
+        
+        try {
+            const response = await fetch('/AutomationChallenges/GetAsyncContent?delayMs=2000&contentType=products');
+            const data = await response.json();
+            
+            let html = '<div class="list-group">';
+            data.data.forEach(item => {
+                html += `
+                    <div class="list-group-item" data-automation-id="product-item-${item.id}">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">${item.name}</h6>
+                            <small>$${item.price}</small>
+                        </div>
+                        <small>Stock: ${item.stock} units</small>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            
+            content.innerHTML = html;
+            content.style.display = 'block';
+        } finally {
+            loading.style.display = 'none';
+            btn.disabled = false;
+        }
+    }
+    
+    async function loadProgressiveContent() {
+        const btn = document.getElementById('btn-load-progressive');
+        const progressBar = document.querySelector('[data-automation-id="progress-bar"]');
+        const progressBarInner = document.getElementById('progress-bar');
+        const itemList = document.getElementById('item-list');
+        
+        btn.disabled = true;
+        progressBar.style.display = 'block';
+        itemList.innerHTML = '';
+        progressBarInner.style.width = '0%';
+        
+        const items = ['Item A', 'Item B', 'Item C', 'Item D', 'Item E'];
+        
+        for (let i = 0; i < items.length; i++) {
+            await new Promise(resolve => setTimeout(resolve, 800));
+            
+            const item = document.createElement('div');
+            item.className = 'list-group-item';
+            item.setAttribute('data-automation-id', `progressive-item-${i + 1}`);
+            item.setAttribute('data-item-index', i + 1);
+            item.textContent = `${items[i]} - Loaded at ${new Date().toLocaleTimeString()}`;
+            itemList.appendChild(item);
+            
+            const progress = ((i + 1) / items.length) * 100;
+            progressBarInner.style.width = progress + '%';
+            progressBarInner.textContent = Math.round(progress) + '%';
+        }
+        
+        setTimeout(() => {
+            progressBar.style.display = 'none';
+            btn.disabled = false;
+        }, 500);
+    }
+    
+    function refreshList() {
+        const list = document.getElementById('dynamic-list');
+        const result = document.getElementById('selection-result');
+        
+        result.classList.add('d-none');
+        
+        // Replace the entire list (causes stale element references)
+        const newList = document.createElement('div');
+        newList.className = 'list-group';
+        newList.innerHTML = `
+            <button type="button" 
+                    class="list-group-item list-group-item-action list-item" 
+                    data-automation-id="dynamic-item-1"
+                    data-item-id="1"
+                    onclick="selectItem(1)">
+                Item 1 - Click to select (Refreshed at ${new Date().toLocaleTimeString()})
+            </button>
+            <button type="button" 
+                    class="list-group-item list-group-item-action list-item" 
+                    data-automation-id="dynamic-item-2"
+                    data-item-id="2"
+                    onclick="selectItem(2)">
+                Item 2 - Click to select (Refreshed at ${new Date().toLocaleTimeString()})
+            </button>
+            <button type="button" 
+                    class="list-group-item list-group-item-action list-item" 
+                    data-automation-id="dynamic-item-3"
+                    data-item-id="3"
+                    onclick="selectItem(3)">
+                Item 3 - Click to select (Refreshed at ${new Date().toLocaleTimeString()})
+            </button>
+        `;
+        
+        list.innerHTML = '';
+        list.appendChild(newList);
+    }
+    
+    function selectItem(itemId) {
+        const result = document.getElementById('selection-result');
+        result.classList.remove('d-none');
+        result.textContent = `Selected Item ${itemId} at ${new Date().toLocaleTimeString()}`;
+    }
+    
+    async function loadAllConcurrent() {
+        const btn = document.getElementById('btn-load-all');
+        const status = document.getElementById('load-status');
+        
+        const spinners = {
+            users: document.getElementById('spinner-users'),
+            products: document.getElementById('spinner-products'),
+            notifications: document.getElementById('spinner-notifications')
+        };
+        
+        const counts = {
+            users: document.getElementById('users-count'),
+            products: document.getElementById('products-count'),
+            notifications: document.getElementById('notifications-count')
+        };
+        
+        btn.disabled = true;
+        status.textContent = 'Loading...';
+        status.className = 'badge bg-warning';
+        
+        Object.values(spinners).forEach(s => s.classList.remove('d-none'));
+        Object.values(counts).forEach(c => c.textContent = '-');
+        
+        // Load all concurrently
+        const promises = [
+            fetch('/AutomationChallenges/GetAsyncContent?delayMs=1500&contentType=users'),
+            fetch('/AutomationChallenges/GetAsyncContent?delayMs=2000&contentType=products'),
+            fetch('/AutomationChallenges/GetAsyncContent?delayMs=1000&contentType=notifications')
+        ];
+        
+        try {
+            const results = await Promise.all(promises);
+            const data = await Promise.all(results.map(r => r.json()));
+            
+            spinners.users.classList.add('d-none');
+            counts.users.textContent = data[0].data.length + ' loaded';
+            
+            spinners.products.classList.add('d-none');
+            counts.products.textContent = data[1].data.length + ' loaded';
+            
+            spinners.notifications.classList.add('d-none');
+            counts.notifications.textContent = data[2].data.length + ' loaded';
+            
+            status.textContent = 'All Loaded';
+            status.className = 'badge bg-success';
+        } catch (error) {
+            status.textContent = 'Error: ' + error.message;
+            status.className = 'badge bg-danger';
+        } finally {
+            btn.disabled = false;
+        }
+    }
+</script>

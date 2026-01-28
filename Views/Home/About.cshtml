@@ -1,0 +1,306 @@
+@{
+    ViewData["Title"] = "About";
+}
+
+<div class="container py-5" data-automation-id="about-container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-4 mb-3" data-automation-id="about-title">About TestableWebApp</h1>
+            <p class="lead text-muted" data-automation-id="about-subtitle">
+                A comprehensive web application designed for QA automation testing practice and framework development
+            </p>
+        </div>
+    </div>
+
+    <!-- Mission Section -->
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow-sm" data-automation-id="mission-card">
+                <div class="card-body p-4">
+                    <h3 class="card-title mb-3" data-automation-id="mission-title">
+                        <i class="bi bi-bullseye"></i> Our Mission
+                    </h3>
+                    <p class="card-text" data-automation-id="mission-text">
+                        TestableWebApp is built from the ground up as a training platform for Quality Assurance engineers 
+                        and automation developers. This application provides real-world scenarios for practicing automated 
+                        testing with Selenium, Playwright, and other modern test automation frameworks.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Features -->
+    <div class="row mb-5">
+        <div class="col-12 mb-4">
+            <h2 class="text-center mb-4" data-automation-id="features-heading">Key Features</h2>
+        </div>
+        
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm" data-automation-id="feature-authentication">
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <i class="bi bi-shield-lock display-4 text-primary"></i>
+                    </div>
+                    <h5 class="card-title text-center" data-automation-id="feature-auth-title">
+                        User Authentication
+                    </h5>
+                    <p class="card-text" data-automation-id="feature-auth-description">
+                        Full authentication system with ASP.NET Core Identity, including user registration, 
+                        login/logout, and role-based authorization (Admin/User roles).
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm" data-automation-id="feature-crud">
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <i class="bi bi-database display-4 text-success"></i>
+                    </div>
+                    <h5 class="card-title text-center" data-automation-id="feature-crud-title">
+                        CRUD Operations
+                    </h5>
+                    <p class="card-text" data-automation-id="feature-crud-description">
+                        Complete Create, Read, Update, Delete functionality with products management. 
+                        Includes search, filtering, pagination, and form validation scenarios.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm" data-automation-id="feature-api">
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <i class="bi bi-code-square display-4 text-info"></i>
+                    </div>
+                    <h5 class="card-title text-center" data-automation-id="feature-api-title">
+                        REST API
+                    </h5>
+                    <p class="card-text" data-automation-id="feature-api-description">
+                        Full REST API with Swagger documentation for API testing practice. Includes 
+                        authentication, CRUD endpoints, and proper HTTP status codes.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm" data-automation-id="feature-accessibility">
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <i class="bi bi-universal-access display-4 text-warning"></i>
+                    </div>
+                    <h5 class="card-title text-center" data-automation-id="feature-accessibility-title">
+                        Accessibility Ready
+                    </h5>
+                    <p class="card-text" data-automation-id="feature-accessibility-description">
+                        Built with WCAG 2.1 Level AA compliance in mind. All elements include 
+                        data-automation-id attributes for stable test locators.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm" data-automation-id="feature-challenges">
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <i class="bi bi-puzzle display-4 text-danger"></i>
+                    </div>
+                    <h5 class="card-title text-center" data-automation-id="feature-challenges-title">
+                        Test Challenges
+                    </h5>
+                    <p class="card-text" data-automation-id="feature-challenges-description">
+                        Specialized pages demonstrating difficult automation scenarios: dynamic elements, 
+                        Shadow DOM, iFrames, async loading, and more.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm" data-automation-id="feature-cicd">
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <i class="bi bi-arrow-repeat display-4 text-secondary"></i>
+                    </div>
+                    <h5 class="card-title text-center" data-automation-id="feature-cicd-title">
+                        CI/CD Ready
+                    </h5>
+                    <p class="card-text" data-automation-id="feature-cicd-description">
+                        Configured for Azure DevOps and GitHub Actions with automated deployment 
+                        pipelines and test integration.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technology Stack -->
+    <div class="row mb-5">
+        <div class="col-lg-10 mx-auto">
+            <div class="card shadow-sm" data-automation-id="tech-stack-card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0" data-automation-id="tech-stack-title">
+                        <i class="bi bi-stack"></i> Technology Stack
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <h5 data-automation-id="backend-heading">Backend</h5>
+                            <ul data-automation-id="backend-list">
+                                <li>.NET 8 Core</li>
+                                <li>ASP.NET Core MVC</li>
+                                <li>Entity Framework Core</li>
+                                <li>ASP.NET Core Identity</li>
+                                <li>PostgreSQL / SQLite</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <h5 data-automation-id="frontend-heading">Frontend</h5>
+                            <ul data-automation-id="frontend-list">
+                                <li>Bootstrap 5</li>
+                                <li>JavaScript (Vanilla)</li>
+                                <li>Razor Views</li>
+                                <li>Responsive Design</li>
+                                <li>WCAG 2.1 AA Compliant</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <h5 data-automation-id="testing-heading">Testing</h5>
+                            <ul data-automation-id="testing-list">
+                                <li>Selenium WebDriver 4</li>
+                                <li>Playwright for .NET</li>
+                                <li>NUnit Test Framework</li>
+                                <li>ExtentReports</li>
+                                <li>Deque.AxeCore (Accessibility)</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <h5 data-automation-id="deployment-heading">Deployment</h5>
+                            <ul data-automation-id="deployment-list">
+                                <li>Google Cloud Run</li>
+                                <li>Cloud SQL (PostgreSQL)</li>
+                                <li>Azure DevOps Pipelines</li>
+                                <li>GitHub Actions</li>
+                                <li>Docker Ready</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Use Cases -->
+    <div class="row mb-5">
+        <div class="col-lg-10 mx-auto">
+            <h2 class="text-center mb-4" data-automation-id="use-cases-heading">Perfect For</h2>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="card border-primary h-100" data-automation-id="use-case-learning">
+                        <div class="card-body">
+                            <h5 class="card-title" data-automation-id="use-case-learning-title">
+                                <i class="bi bi-book"></i> Learning & Practice
+                            </h5>
+                            <p class="card-text" data-automation-id="use-case-learning-text">
+                                QA engineers learning test automation frameworks or practicing new techniques
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-success h-100" data-automation-id="use-case-portfolio">
+                        <div class="card-body">
+                            <h5 class="card-title" data-automation-id="use-case-portfolio-title">
+                                <i class="bi bi-briefcase"></i> Portfolio Projects
+                            </h5>
+                            <p class="card-text" data-automation-id="use-case-portfolio-text">
+                                Demonstrating automation framework development and testing best practices
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-info h-100" data-automation-id="use-case-interview">
+                        <div class="card-body">
+                            <h5 class="card-title" data-automation-id="use-case-interview-title">
+                                <i class="bi bi-person-workspace"></i> Interview Preparation
+                            </h5>
+                            <p class="card-text" data-automation-id="use-case-interview-text">
+                                Preparing for QA automation engineer interviews with hands-on examples
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-warning h-100" data-automation-id="use-case-training">
+                        <div class="card-body">
+                            <h5 class="card-title" data-automation-id="use-case-training-title">
+                                <i class="bi bi-people"></i> Team Training
+                            </h5>
+                            <p class="card-text" data-automation-id="use-case-training-text">
+                                Training QA teams on automation best practices and framework development
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Credentials -->
+    <div class="row mb-4">
+        <div class="col-lg-8 mx-auto">
+            <div class="alert alert-info" data-automation-id="test-credentials-alert">
+                <h5 class="alert-heading" data-automation-id="credentials-heading">
+                    <i class="bi bi-key"></i> Test Credentials
+                </h5>
+                <p data-automation-id="credentials-description">
+                    This is a demo application. Use these credentials for testing:
+                </p>
+                <ul class="mb-0" data-automation-id="credentials-list">
+                    <li data-automation-id="admin-credential"><strong>Admin:</strong> admin@test.com / Admin123!</li>
+                    <li data-automation-id="user-credential"><strong>User:</strong> user@test.com / User123!</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="row">
+        <div class="col-12 text-center">
+            <h3 class="mb-4" data-automation-id="cta-heading">Get Started Testing</h3>
+            <div class="d-flex gap-3 justify-content-center flex-wrap" data-automation-id="cta-buttons">
+                <a asp-controller="Products" asp-action="Index" 
+                   class="btn btn-primary btn-lg" 
+                   data-automation-id="cta-products">
+                    <i class="bi bi-box-seam"></i> Browse Products
+                </a>
+                <a asp-controller="AutomationChallenges" asp-action="Index" 
+                   class="btn btn-success btn-lg" 
+                   data-automation-id="cta-challenges">
+                    <i class="bi bi-puzzle"></i> Try Challenges
+                </a>
+                <a href="/swagger" 
+                   class="btn btn-info btn-lg" 
+                   data-automation-id="cta-api">
+                    <i class="bi bi-code-square"></i> View API Docs
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.2s;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+</style>

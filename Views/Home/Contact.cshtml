@@ -1,0 +1,376 @@
+@{
+    ViewData["Title"] = "Contact";
+}
+
+<div class="container py-5" data-automation-id="contact-container">
+    <div class="row mb-4">
+        <div class="col-lg-8 mx-auto text-center">
+            <h1 class="display-4 mb-3" data-automation-id="contact-title">Contact Us</h1>
+            <p class="lead text-muted" data-automation-id="contact-subtitle">
+                Have questions about TestableWebApp? We'd love to hear from you.
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Contact Form -->
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow-sm" data-automation-id="contact-form-card">
+                <div class="card-body p-4">
+                    <form id="contactForm" data-automation-id="contact-form" onsubmit="handleSubmit(event)">
+                        <div class="row">
+                            <!-- Name -->
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label" data-automation-id="label-name">
+                                    Full Name <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="name" 
+                                       name="name"
+                                       data-automation-id="input-name" 
+                                       placeholder="John Doe"
+                                       required>
+                                <div class="invalid-feedback" data-automation-id="error-name">
+                                    Please provide your name.
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label" data-automation-id="label-email">
+                                    Email Address <span class="text-danger">*</span>
+                                </label>
+                                <input type="email" 
+                                       class="form-control" 
+                                       id="email" 
+                                       name="email"
+                                       data-automation-id="input-email" 
+                                       placeholder="john.doe@example.com"
+                                       required>
+                                <div class="invalid-feedback" data-automation-id="error-email">
+                                    Please provide a valid email address.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Phone (Optional) -->
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label" data-automation-id="label-phone">
+                                    Phone Number <span class="text-muted">(Optional)</span>
+                                </label>
+                                <input type="tel" 
+                                       class="form-control" 
+                                       id="phone" 
+                                       name="phone"
+                                       data-automation-id="input-phone" 
+                                       placeholder="(555) 123-4567"
+                                       pattern="[\(\)\d\s\-\+]+">
+                                <div class="invalid-feedback" data-automation-id="error-phone">
+                                    Please provide a valid phone number.
+                                </div>
+                            </div>
+
+                            <!-- Subject -->
+                            <div class="col-md-6 mb-3">
+                                <label for="subject" class="form-label" data-automation-id="label-subject">
+                                    Subject <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" 
+                                        id="subject" 
+                                        name="subject"
+                                        data-automation-id="select-subject" 
+                                        required>
+                                    <option value="" data-automation-id="subject-option-default">Select a subject...</option>
+                                    <option value="general" data-automation-id="subject-option-general">General Inquiry</option>
+                                    <option value="technical" data-automation-id="subject-option-technical">Technical Support</option>
+                                    <option value="testing" data-automation-id="subject-option-testing">Testing Question</option>
+                                    <option value="collaboration" data-automation-id="subject-option-collaboration">Collaboration</option>
+                                    <option value="feedback" data-automation-id="subject-option-feedback">Feedback</option>
+                                    <option value="other" data-automation-id="subject-option-other">Other</option>
+                                </select>
+                                <div class="invalid-feedback" data-automation-id="error-subject">
+                                    Please select a subject.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Message -->
+                        <div class="mb-3">
+                            <label for="message" class="form-label" data-automation-id="label-message">
+                                Message <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" 
+                                      id="message" 
+                                      name="message"
+                                      data-automation-id="textarea-message" 
+                                      rows="6" 
+                                      placeholder="Enter your message here..."
+                                      required
+                                      minlength="10"></textarea>
+                            <div class="invalid-feedback" data-automation-id="error-message">
+                                Please provide a message (at least 10 characters).
+                            </div>
+                            <div class="form-text" data-automation-id="message-hint">
+                                <span id="charCount" data-automation-id="char-count">0</span> characters
+                            </div>
+                        </div>
+
+                        <!-- Subscribe Checkbox -->
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" 
+                                       type="checkbox" 
+                                       id="subscribe" 
+                                       name="subscribe"
+                                       data-automation-id="checkbox-subscribe">
+                                <label class="form-check-label" for="subscribe" data-automation-id="label-subscribe">
+                                    Subscribe to updates about TestableWebApp
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="reset" 
+                                    class="btn btn-outline-secondary" 
+                                    data-automation-id="btn-reset">
+                                <i class="bi bi-x-circle"></i> Clear Form
+                            </button>
+                            <button type="submit" 
+                                    class="btn btn-primary" 
+                                    data-automation-id="btn-submit">
+                                <i class="bi bi-send"></i> Send Message
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Success Message -->
+                    <div id="successMessage" 
+                         class="alert alert-success mt-4 d-none" 
+                         role="alert"
+                         data-automation-id="success-message">
+                        <h5 class="alert-heading" data-automation-id="success-heading">
+                            <i class="bi bi-check-circle"></i> Message Sent Successfully!
+                        </h5>
+                        <p class="mb-0" data-automation-id="success-text">
+                            Thank you for contacting us. We've received your message and will respond within 24-48 hours.
+                        </p>
+                    </div>
+
+                    <!-- Error Message -->
+                    <div id="errorMessage" 
+                         class="alert alert-danger mt-4 d-none" 
+                         role="alert"
+                         data-automation-id="error-message">
+                        <h5 class="alert-heading" data-automation-id="error-heading">
+                            <i class="bi bi-exclamation-triangle"></i> Submission Failed
+                        </h5>
+                        <p class="mb-0" data-automation-id="error-text">
+                            There was an error submitting your message. Please try again or contact us directly.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Contact Information -->
+    <div class="row mt-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="row text-center">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-primary" data-automation-id="info-card-email">
+                        <div class="card-body">
+                            <i class="bi bi-envelope display-4 text-primary mb-3"></i>
+                            <h5 class="card-title" data-automation-id="info-email-title">Email</h5>
+                            <p class="card-text" data-automation-id="info-email-text">
+                                support@testablewebapp.com
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-success" data-automation-id="info-card-github">
+                        <div class="card-body">
+                            <i class="bi bi-github display-4 text-success mb-3"></i>
+                            <h5 class="card-title" data-automation-id="info-github-title">GitHub</h5>
+                            <p class="card-text" data-automation-id="info-github-text">
+                                <a href="https://github.com" 
+                                   target="_blank" 
+                                   data-automation-id="link-github">
+                                    View on GitHub
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-info" data-automation-id="info-card-docs">
+                        <div class="card-body">
+                            <i class="bi bi-book display-4 text-info mb-3"></i>
+                            <h5 class="card-title" data-automation-id="info-docs-title">Documentation</h5>
+                            <p class="card-text" data-automation-id="info-docs-text">
+                                <a href="/swagger" 
+                                   data-automation-id="link-swagger">
+                                    API Documentation
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="row mt-5">
+        <div class="col-lg-8 mx-auto">
+            <h3 class="text-center mb-4" data-automation-id="faq-heading">Frequently Asked Questions</h3>
+            
+            <div class="accordion" id="faqAccordion" data-automation-id="faq-accordion">
+                <div class="accordion-item" data-automation-id="faq-item-1">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" 
+                                type="button" 
+                                data-bs-toggle="collapse" 
+                                data-bs-target="#faq1"
+                                data-automation-id="faq-button-1">
+                            What is TestableWebApp used for?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body" data-automation-id="faq-answer-1">
+                            TestableWebApp is a demonstration application specifically designed for QA automation 
+                            engineers to practice test automation frameworks like Selenium and Playwright.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-automation-id="faq-item-2">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" 
+                                type="button" 
+                                data-bs-toggle="collapse" 
+                                data-bs-target="#faq2"
+                                data-automation-id="faq-button-2">
+                            Can I use this for my portfolio?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body" data-automation-id="faq-answer-2">
+                            Absolutely! This application is designed to help QA engineers build and showcase 
+                            their automation testing frameworks as portfolio projects.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-automation-id="faq-item-3">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" 
+                                type="button" 
+                                data-bs-toggle="collapse" 
+                                data-bs-target="#faq3"
+                                data-automation-id="faq-button-3">
+                            What technologies does it use?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body" data-automation-id="faq-answer-3">
+                            Built with .NET 8 Core, ASP.NET Core MVC, Entity Framework Core, Bootstrap 5, 
+                            and deployed on Google Cloud Platform. See the About page for full details.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Character counter for message textarea
+    const messageTextarea = document.getElementById('message');
+    const charCount = document.getElementById('charCount');
+    
+    messageTextarea.addEventListener('input', function() {
+        charCount.textContent = this.value.length;
+    });
+
+    // Form submission handler
+    function handleSubmit(event) {
+        event.preventDefault();
+        
+        const form = document.getElementById('contactForm');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+        
+        // Hide any existing messages
+        successMessage.classList.add('d-none');
+        errorMessage.classList.add('d-none');
+        
+        // Validate form
+        if (!form.checkValidity()) {
+            event.stopPropagation();
+            form.classList.add('was-validated');
+            return false;
+        }
+        
+        // Simulate form submission (in real app, this would be an API call)
+        const formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            subject: document.getElementById('subject').value,
+            message: document.getElementById('message').value,
+            subscribe: document.getElementById('subscribe').checked,
+            timestamp: new Date().toISOString()
+        };
+        
+        console.log('Contact form submitted:', formData);
+        
+        // Simulate API call delay
+        setTimeout(() => {
+            // Show success message
+            successMessage.classList.remove('d-none');
+            
+            // Reset form
+            form.reset();
+            form.classList.remove('was-validated');
+            charCount.textContent = '0';
+            
+            // Scroll to success message
+            successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 500);
+        
+        return false;
+    }
+
+    // Reset validation on form reset
+    document.getElementById('contactForm').addEventListener('reset', function() {
+        this.classList.remove('was-validated');
+        document.getElementById('charCount').textContent = '0';
+        document.getElementById('successMessage').classList.add('d-none');
+        document.getElementById('errorMessage').classList.add('d-none');
+    });
+</script>
+
+<style>
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    }
+    
+    .was-validated .form-control:valid,
+    .was-validated .form-select:valid {
+        border-color: #198754;
+    }
+    
+    .was-validated .form-control:invalid,
+    .was-validated .form-select:invalid {
+        border-color: #dc3545;
+    }
+</style>

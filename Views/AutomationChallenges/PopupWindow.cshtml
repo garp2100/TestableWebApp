@@ -1,0 +1,20 @@
+@{
+    ViewData["Title"] = "Popup Window";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Popup Window</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+</head>
+<body>
+<div class="container py-4" data-automation-id="popup-content">
+    <h3>Popup Window</h3>
+    <p>This is a popup window opened with window.open()</p>
+    <button class="btn btn-secondary" data-automation-id="btn-close-popup" onclick="window.close()">
+        Close Popup
+    </button>
+</div>
+</body>
+</html>

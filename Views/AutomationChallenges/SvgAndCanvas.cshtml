@@ -1,0 +1,97 @@
+@{
+    ViewData["Title"] = "Challenge 5: SVG & Canvas Elements";
+}
+
+<div class="container py-4" data-automation-id="svg-canvas-container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index")">Challenges</a></li>
+                    <li class="breadcrumb-item active">SVG & Canvas</li>
+                </ol>
+            </nav>
+            <h1 class="display-5" data-automation-id="page-title">Challenge 5: SVG & Canvas Elements</h1>
+            <p class="lead text-muted">Interactive charts and visualizations</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">SVG Bar Chart</h5>
+                </div>
+                <div class="card-body">
+                    <svg id="bar-chart" width="600" height="300" data-automation-id="svg-chart">
+                        <g transform="translate(50, 20)">
+                            <rect x="0" y="150" width="80" height="100" fill="#007bff" data-automation-id="svg-bar-1" data-value="100"/>
+                            <rect x="100" y="100" width="80" height="150" fill="#28a745" data-automation-id="svg-bar-2" data-value="150"/>
+                            <rect x="200" y="50" width="80" height="200" fill="#ffc107" data-automation-id="svg-bar-3" data-value="200"/>
+                            <text x="40" y="270" text-anchor="middle">Jan</text>
+                            <text x="140" y="270" text-anchor="middle">Feb</text>
+                            <text x="240" y="270" text-anchor="middle">Mar</text>
+                        </g>
+                    </svg>
+                    <div class="mt-3" id="chart-info" data-automation-id="chart-info">
+                        Click on bars to see values
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Canvas Drawing</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="drawing-canvas" width="600" height="300" 
+                            data-automation-id="canvas-element"
+                            style="border: 2px solid #28a745;">
+                    </canvas>
+                    <div class="mt-3">
+                        <button class="btn btn-success" data-automation-id="btn-draw-circle" onclick="drawCircle()">
+                            Draw Circle
+                        </button>
+                        <button class="btn btn-info" data-automation-id="btn-draw-rect" onclick="drawRect()">
+                            Draw Rectangle
+                        </button>
+                        <button class="btn btn-warning" data-automation-id="btn-clear-canvas" onclick="clearCanvas()">
+                            Clear Canvas
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('[data-automation-id^="svg-bar-"]').forEach(bar => {
+        bar.addEventListener('click', function() {
+            const value = this.getAttribute('data-value');
+            document.getElementById('chart-info').innerHTML = 
+                `<strong>Bar clicked!</strong> Value: ${value}`;
+        });
+    });
+
+    const canvas = document.getElementById('drawing-canvas');
+    const ctx = canvas.getContext('2d');
+
+    function drawCircle() {
+        ctx.fillStyle = '#28a745';
+        ctx.beginPath();
+        ctx.arc(300, 150, 50, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+
+    function drawRect() {
+        ctx.fillStyle = '#17a2b8';
+        ctx.fillRect(200, 100, 200, 100);
+    }
+
+    function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+</script>

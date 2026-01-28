@@ -1,0 +1,341 @@
+@{
+    ViewData["Title"] = "Challenge 1: Dynamic Element Locators";
+}
+
+<div class="container py-4" data-automation-id="dynamic-elements-container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index")">Challenges</a></li>
+                    <li class="breadcrumb-item active">Dynamic Elements</li>
+                </ol>
+            </nav>
+            <h1 class="display-5" data-automation-id="page-title">Challenge 1: Dynamic Element Locators</h1>
+            <p class="lead text-muted" data-automation-id="page-subtitle">
+                Elements with IDs and classes that change on every page reload
+            </p>
+        </div>
+    </div>
+
+    <!-- Challenge Description -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="alert alert-warning" data-automation-id="challenge-description">
+                <h5><i class="bi bi-exclamation-triangle"></i> The Challenge</h5>
+                <p>
+                    Modern JavaScript frameworks like React and Angular often generate dynamic IDs and class names
+                    that change with each render. This page simulates that behavior - refresh the page and watch
+                    the element IDs change!
+                </p>
+                <p class="mb-0">
+                    <strong>Your Task:</strong> Create automated tests that can reliably interact with these elements
+                    despite their changing identifiers.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Solution Strategies -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-info">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="bi bi-lightbulb"></i> Recommended Solutions</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="mb-0">
+                        <li>Use <code>data-automation-id</code> attributes (stable across renders)</li>
+                        <li>XPath with <code>contains()</code>, <code>starts-with()</code>, or <code>following-sibling::</code></li>
+                        <li>Anchor elements to stable parent containers</li>
+                        <li>Use CSS selectors with partial matches: <code>[id^='btn-']</code></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Scenarios -->
+    <div class="row g-4">
+        <!-- Scenario 1: Form with Dynamic IDs -->
+        <div class="col-md-6">
+            <div class="card h-100" data-automation-id="form-scenario">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Scenario 1: Dynamic Form Elements</h5>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted">
+                        Current IDs: <span id="debug-ids" class="badge bg-secondary"></span>
+                    </p>
+                    
+                    <form id="form-@ViewBag.RandomId1" data-automation-id="dynamic-form" data-form-type="user-registration">
+                        <div class="mb-3">
+                            <label for="username-@ViewBag.RandomId1" class="form-label">Username</label>
+                            <input type="text" 
+                                   class="form-control input-@ViewBag.Timestamp" 
+                                   id="username-@ViewBag.RandomId1" 
+                                   data-automation-id="input-username"
+                                   data-field-name="username"
+                                   placeholder="Enter username">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="email-@ViewBag.RandomId2" class="form-label">Email</label>
+                            <input type="email" 
+                                   class="form-control input-@ViewBag.Timestamp" 
+                                   id="email-@ViewBag.RandomId2" 
+                                   data-automation-id="input-email"
+                                   data-field-name="email"
+                                   placeholder="Enter email">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="age-@ViewBag.RandomId3" class="form-label">Age</label>
+                            <input type="number" 
+                                   class="form-control input-@ViewBag.Timestamp" 
+                                   id="age-@ViewBag.RandomId3" 
+                                   data-automation-id="input-age"
+                                   data-field-name="age"
+                                   placeholder="Enter age">
+                        </div>
+                        
+                        <button type="button" 
+                                id="btn-submit-@ViewBag.RandomId1" 
+                                class="btn btn-primary btn-@ViewBag.Timestamp"
+                                data-automation-id="btn-submit-form"
+                                data-action="submit"
+                                onclick="handleFormSubmit()">
+                            Submit Form
+                        </button>
+                        
+                        <button type="button" 
+                                id="btn-reset-@ViewBag.RandomId2" 
+                                class="btn btn-secondary ms-2"
+                                data-automation-id="btn-reset-form"
+                                data-action="reset"
+                                onclick="handleFormReset()">
+                            Reset
+                        </button>
+                    </form>
+                    
+                    <div id="result-@ViewBag.RandomId3" 
+                         class="mt-3 alert alert-success d-none" 
+                         data-automation-id="form-result"
+                         data-result-type="success"
+                         role="alert">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scenario 2: Dynamic Button List -->
+        <div class="col-md-6">
+            <div class="card h-100" data-automation-id="button-scenario">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Scenario 2: Dynamic Action Buttons</h5>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted mb-3">Each button has a dynamically generated ID</p>
+                    
+                    <div class="d-grid gap-2" data-automation-id="action-buttons-container">
+                        <button id="action-save-@ViewBag.RandomId1" 
+                                class="btn btn-outline-primary action-btn-@ViewBag.Timestamp"
+                                data-automation-id="btn-action-save"
+                                data-action-type="save"
+                                onclick="handleAction('save')">
+                            <i class="bi bi-save"></i> Save Data
+                        </button>
+                        
+                        <button id="action-load-@ViewBag.RandomId2" 
+                                class="btn btn-outline-info action-btn-@ViewBag.Timestamp"
+                                data-automation-id="btn-action-load"
+                                data-action-type="load"
+                                onclick="handleAction('load')">
+                            <i class="bi bi-download"></i> Load Data
+                        </button>
+                        
+                        <button id="action-delete-@ViewBag.RandomId3" 
+                                class="btn btn-outline-danger action-btn-@ViewBag.Timestamp"
+                                data-automation-id="btn-action-delete"
+                                data-action-type="delete"
+                                onclick="handleAction('delete')">
+                            <i class="bi bi-trash"></i> Delete Data
+                        </button>
+                        
+                        <button id="action-export-@ViewBag.RandomId1" 
+                                class="btn btn-outline-warning action-btn-@ViewBag.Timestamp"
+                                data-automation-id="btn-action-export"
+                                data-action-type="export"
+                                onclick="handleAction('export')">
+                            <i class="bi bi-file-earmark-arrow-down"></i> Export Data
+                        </button>
+                    </div>
+                    
+                    <div id="action-result-@ViewBag.RandomId2" 
+                         class="mt-3 alert d-none" 
+                         data-automation-id="action-result"
+                         role="alert">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scenario 3: Dynamic Table -->
+        <div class="col-12">
+            <div class="card" data-automation-id="table-scenario">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">Scenario 3: Dynamic Data Table</h5>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted">Table and row IDs change on each page load</p>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-striped" 
+                               id="data-table-@ViewBag.RandomId3" 
+                               data-automation-id="dynamic-table"
+                               data-table-type="products">
+                            <thead>
+                                <tr>
+                                    <th data-automation-id="th-id">ID</th>
+                                    <th data-automation-id="th-product">Product</th>
+                                    <th data-automation-id="th-price">Price</th>
+                                    <th data-automation-id="th-stock">Stock</th>
+                                    <th data-automation-id="th-actions">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody data-automation-id="table-body">
+                                <tr id="row-1-@ViewBag.RandomId1" 
+                                    data-automation-id="table-row-1"
+                                    data-product-id="1">
+                                    <td data-automation-id="cell-id">1</td>
+                                    <td data-automation-id="cell-product">Laptop Pro</td>
+                                    <td data-automation-id="cell-price">$1,299.99</td>
+                                    <td data-automation-id="cell-stock">15</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary" 
+                                                id="edit-1-@ViewBag.RandomId1"
+                                                data-automation-id="btn-edit-row"
+                                                data-row-id="1"
+                                                onclick="editRow(1)">
+                                            Edit
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr id="row-2-@ViewBag.RandomId2" 
+                                    data-automation-id="table-row-2"
+                                    data-product-id="2">
+                                    <td data-automation-id="cell-id">2</td>
+                                    <td data-automation-id="cell-product">Wireless Mouse</td>
+                                    <td data-automation-id="cell-price">$29.99</td>
+                                    <td data-automation-id="cell-stock">150</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary" 
+                                                id="edit-2-@ViewBag.RandomId2"
+                                                data-automation-id="btn-edit-row"
+                                                data-row-id="2"
+                                                onclick="editRow(2)">
+                                            Edit
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr id="row-3-@ViewBag.RandomId3" 
+                                    data-automation-id="table-row-3"
+                                    data-product-id="3">
+                                    <td data-automation-id="cell-id">3</td>
+                                    <td data-automation-id="cell-product">Mechanical Keyboard</td>
+                                    <td data-automation-id="cell-price">$89.99</td>
+                                    <td data-automation-id="cell-stock">45</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary" 
+                                                id="edit-3-@ViewBag.RandomId3"
+                                                data-automation-id="btn-edit-row"
+                                                data-row-id="3"
+                                                onclick="editRow(3)">
+                                            Edit
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="edit-result-@ViewBag.RandomId1" 
+                         class="mt-3 alert d-none" 
+                         data-automation-id="edit-result"
+                         role="alert">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Refresh Information -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card border-secondary">
+                <div class="card-body text-center">
+                    <p class="mb-2"><strong>Test Your Solution:</strong> Refresh the page to see IDs change!</p>
+                    <button class="btn btn-secondary" onclick="location.reload()" data-automation-id="btn-refresh-page">
+                        <i class="bi bi-arrow-clockwise"></i> Refresh Page
+                    </button>
+                    <p class="small text-muted mt-2">
+                        Notice how the IDs change but <code>data-automation-id</code> attributes remain stable
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Display current dynamic IDs for debugging
+    document.addEventListener('DOMContentLoaded', function() {
+        const ids = {
+            randomId1: '@ViewBag.RandomId1',
+            randomId2: '@ViewBag.RandomId2',
+            randomId3: '@ViewBag.RandomId3',
+            timestamp: '@ViewBag.Timestamp'
+        };
+        document.getElementById('debug-ids').textContent = JSON.stringify(ids);
+    });
+
+    function handleFormSubmit() {
+        const username = document.querySelector('[data-automation-id="input-username"]').value;
+        const email = document.querySelector('[data-automation-id="input-email"]').value;
+        const age = document.querySelector('[data-automation-id="input-age"]').value;
+        
+        const resultDiv = document.querySelector('[data-automation-id="form-result"]');
+        resultDiv.classList.remove('d-none', 'alert-danger');
+        resultDiv.classList.add('alert-success');
+        resultDiv.textContent = `Form submitted successfully! Username: ${username}, Email: ${email}, Age: ${age}`;
+    }
+
+    function handleFormReset() {
+        document.querySelector('[data-automation-id="dynamic-form"]').reset();
+        const resultDiv = document.querySelector('[data-automation-id="form-result"]');
+        resultDiv.classList.add('d-none');
+    }
+
+    function handleAction(action) {
+        const resultDiv = document.querySelector('[data-automation-id="action-result"]');
+        resultDiv.classList.remove('d-none', 'alert-success', 'alert-info', 'alert-danger', 'alert-warning');
+        
+        const messages = {
+            save: { text: 'Data saved successfully!', class: 'alert-success' },
+            load: { text: 'Data loaded successfully!', class: 'alert-info' },
+            delete: { text: 'Data deleted successfully!', class: 'alert-danger' },
+            export: { text: 'Data exported successfully!', class: 'alert-warning' }
+        };
+        
+        const msg = messages[action];
+        resultDiv.classList.add(msg.class);
+        resultDiv.textContent = msg.text;
+    }
+
+    function editRow(rowId) {
+        const resultDiv = document.querySelector('[data-automation-id="edit-result"]');
+        resultDiv.classList.remove('d-none', 'alert-danger');
+        resultDiv.classList.add('alert-info');
+        resultDiv.textContent = `Editing row ${rowId}. Changes saved!`;
+    }
+</script>

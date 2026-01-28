@@ -1,0 +1,290 @@
+@{
+    ViewData["Title"] = "Automation Testing Challenges";
+}
+
+<div class="container py-5" data-automation-id="challenges-container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-4" data-automation-id="challenges-title">Automation Testing Challenges</h1>
+            <p class="lead text-muted" data-automation-id="challenges-subtitle">
+                Practice challenging Selenium and Playwright scenarios
+            </p>
+            <hr class="my-4">
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="alert alert-info" data-automation-id="challenges-info">
+                <h5><i class="bi bi-info-circle"></i> About These Challenges</h5>
+                <p class="mb-0">
+                    Each challenge below represents a common difficult scenario encountered in web automation testing.
+                    These pages are specifically designed to help QA engineers practice and master advanced automation techniques.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Challenge Cards Grid -->
+    <div class="row g-4" data-automation-id="challenges-grid">
+        
+        <!-- Challenge 1: Dynamic Element Locators -->
+        <div class="col-md-6 col-lg-4" data-automation-id="challenge-card-dynamic">
+            <div class="card h-100 shadow-sm hover-shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-shuffle"></i> Dynamic Element Locators
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <span class="badge bg-warning text-dark mb-2">High Difficulty</span>
+                    <p class="card-text">
+                        Practice with elements that have IDs and classes that change on every page load,
+                        simulating React/Angular dynamic frameworks.
+                    </p>
+                    <ul class="small text-muted">
+                        <li>Randomly generated element IDs</li>
+                        <li>Timestamp-based class names</li>
+                        <li>Requires XPath strategies</li>
+                    </ul>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="@Url.Action("DynamicElements")" 
+                       class="btn btn-primary w-100" 
+                       data-automation-id="btn-challenge-dynamic">
+                        Start Challenge
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenge 2: Shadow DOM & iFrames -->
+        <div class="col-md-6 col-lg-4" data-automation-id="challenge-card-shadow">
+            <div class="card h-100 shadow-sm hover-shadow">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-layers"></i> Shadow DOM & iFrames
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <span class="badge bg-danger mb-2">Expert Level</span>
+                    <p class="card-text">
+                        Work with nested Shadow DOM components and multiple iFrame levels
+                        that require frame switching and shadow root access.
+                    </p>
+                    <ul class="small text-muted">
+                        <li>Web Components with Shadow DOM</li>
+                        <li>Nested iFrame structures</li>
+                        <li>JavaScript Executor required</li>
+                    </ul>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="@Url.Action("ShadowDomAndFrames")" 
+                       class="btn btn-danger w-100" 
+                       data-automation-id="btn-challenge-shadow">
+                        Start Challenge
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenge 3: Asynchronous Loading -->
+        <div class="col-md-6 col-lg-4" data-automation-id="challenge-card-async">
+            <div class="card h-100 shadow-sm hover-shadow">
+                <div class="card-header bg-info text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-hourglass-split"></i> Async Loading (AJAX)
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <span class="badge bg-info mb-2">Medium Difficulty</span>
+                    <p class="card-text">
+                        Handle content that loads asynchronously without page refreshes,
+                        causing timing issues and stale element exceptions.
+                    </p>
+                    <ul class="small text-muted">
+                        <li>AJAX content loading</li>
+                        <li>Progressive data updates</li>
+                        <li>Requires explicit waits</li>
+                    </ul>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="@Url.Action("AsyncLoading")" 
+                       class="btn btn-info w-100" 
+                       data-automation-id="btn-challenge-async">
+                        Start Challenge
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenge 4: Multi-Window Management -->
+        <div class="col-md-6 col-lg-4" data-automation-id="challenge-card-multiwindow">
+            <div class="card h-100 shadow-sm hover-shadow">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-window-stack"></i> Multi-Window & Tabs
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <span class="badge bg-success mb-2">Medium Difficulty</span>
+                    <p class="card-text">
+                        Practice handling scenarios where interactions open new browser tabs
+                        or popup windows, requiring window handle management.
+                    </p>
+                    <ul class="small text-muted">
+                        <li>New tab interactions</li>
+                        <li>Popup windows</li>
+                        <li>Window handle switching</li>
+                    </ul>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="@Url.Action("MultiWindow")" 
+                       class="btn btn-success w-100" 
+                       data-automation-id="btn-challenge-multiwindow">
+                        Start Challenge
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenge 5: SVG & Canvas -->
+        <div class="col-md-6 col-lg-4" data-automation-id="challenge-card-svg">
+            <div class="card h-100 shadow-sm hover-shadow">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-bar-chart"></i> SVG & Canvas Elements
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <span class="badge bg-warning text-dark mb-2">High Difficulty</span>
+                    <p class="card-text">
+                        Interact with SVG charts and Canvas-based visualizations that require
+                        specialized locator strategies and coordinate-based actions.
+                    </p>
+                    <ul class="small text-muted">
+                        <li>SVG chart interactions</li>
+                        <li>Canvas pixel operations</li>
+                        <li>Coordinate-based clicking</li>
+                    </ul>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="@Url.Action("SvgAndCanvas")" 
+                       class="btn btn-warning w-100" 
+                       data-automation-id="btn-challenge-svg">
+                        Start Challenge
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenge 6: File Operations -->
+        <div class="col-md-6 col-lg-4" data-automation-id="challenge-card-files">
+            <div class="card h-100 shadow-sm hover-shadow">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-file-earmark-arrow-up"></i> File Operations
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <span class="badge bg-secondary mb-2">Medium Difficulty</span>
+                    <p class="card-text">
+                        Handle file upload and download operations that require bypassing
+                        OS-level file dialogs and configuring browser preferences.
+                    </p>
+                    <ul class="small text-muted">
+                        <li>File upload without dialogs</li>
+                        <li>Automated downloads</li>
+                        <li>File validation</li>
+                    </ul>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="@Url.Action("FileOperations")" 
+                       class="btn btn-secondary w-100" 
+                       data-automation-id="btn-challenge-files">
+                        Start Challenge
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bonus: Complex Scenario -->
+        <div class="col-md-12" data-automation-id="challenge-card-complex">
+            <div class="card shadow-sm hover-shadow border-dark">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-trophy"></i> Complex End-to-End Scenario
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <span class="badge bg-danger mb-2">Expert Challenge</span>
+                            <p class="card-text">
+                                A comprehensive scenario that combines multiple challenges into a single workflow.
+                                This simulates real-world testing scenarios where you'll encounter dynamic elements,
+                                async operations, file handling, and multi-window management all in one test.
+                            </p>
+                            <ul class="small text-muted">
+                                <li>Multi-step workflow with all challenge types</li>
+                                <li>Requires comprehensive test strategy</li>
+                                <li>Tests advanced synchronization techniques</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-center justify-content-center">
+                            <a href="@Url.Action("ComplexScenario")" 
+                               class="btn btn-dark btn-lg" 
+                               data-automation-id="btn-challenge-complex">
+                                <i class="bi bi-rocket-takeoff"></i> Take the Challenge
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testing Tips Section -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card border-info">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="bi bi-lightbulb"></i> Automation Testing Tips</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Best Practices:</h6>
+                            <ul class="small">
+                                <li>Use <code>data-automation-id</code> attributes for stable locators</li>
+                                <li>Implement explicit waits instead of hard-coded sleeps</li>
+                                <li>Handle stale element references with retry logic</li>
+                                <li>Use Page Object Model for maintainable tests</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Common Pitfalls:</h6>
+                            <ul class="small">
+                                <li>Not waiting for elements to be clickable before interaction</li>
+                                <li>Using fragile locators based on generated IDs</li>
+                                <li>Forgetting to switch back to default content after iFrame work</li>
+                                <li>Not handling multiple window scenarios properly</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-shadow {
+        transition: all 0.3s ease;
+    }
+    
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
+    }
+</style>
