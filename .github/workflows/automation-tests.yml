@@ -5,7 +5,7 @@
 # Can be triggered manually or after deployment.
 #
 # Required GitHub Secrets:
-#   - TEST_BASE_URL: URL of the deployed app (e.g., https://testablewebapp-xxx.a.run.app)
+#   - TEST_BASE_URL: URL of the deployed app (e.g., https://testablewebapp.azurecontainerapps.io)
 # =============================================================================
 
 name: Automation Tests

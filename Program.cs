@@ -21,7 +21,7 @@ if (builder.Environment.IsDevelopment())
 }
 else
 {
-    // Use PostgreSQL in production (Cloud SQL)
+    // Use PostgreSQL in production (Azure Database for PostgreSQL)
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
         options.UseNpgsql(connectionString));
 }

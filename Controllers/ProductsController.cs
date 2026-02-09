@@ -38,7 +38,7 @@ public class ProductsController : Controller
         }
 
         ViewData["Categories"] = ProductCategory.Categories;
-        return View(products);
+        return View(products); // Passes data to View
     }
 
     // GET: Products/Details/5
